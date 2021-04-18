@@ -6,6 +6,6 @@ export default async function handler(req, res) {
   const deleteRow = await db("posts").where({ id }).del();
   res.status(200);
   res.json({
-    message: "Post deleted successfully",
+    message: "Post successfully deleted",
   });
 }
