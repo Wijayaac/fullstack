@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 
   res.status(200);
   res.json({
-    messga: "Users successfully registered",
+    message: "Users successfully registered",
     data: registeredUser,
   });
 }
