@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import Cookie from "js-cookie";
+import Router from "next/router";
+import { unauthPage } from "../../middlewares/authorizationPage";
 
+export async function getServerSideProps(ctx) {
+  await unauthPage(ctx);
+  return { props: {} };
+}
 export default function Login() {
   const [fields, setFields] = useState({
     email: "",
@@ -8,6 +14,7 @@ export default function Login() {
   });
 
   const [status, setStatus] = useState("normal");
+
   async function loginHandler(e) {
     e.preventDefault();
     setStatus("loading");
@@ -23,6 +30,7 @@ export default function Login() {
     const loginRes = await loginReq.json();
     setStatus("success");
     Cookie.set("token", loginRes.token);
+    Router.push("/posts");
   }
   function fieldHandler(e) {
     const name = e.target.getAttribute("name");

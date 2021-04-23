@@ -1,5 +1,10 @@
 import React, { useState } from "react";
+import { unauthPage } from "../../middlewares/authorizationPage";
 
+export async function getServerSideProps(ctx) {
+  await unauthPage(ctx);
+  return { props: {} };
+}
 export default function Register() {
   const [fields, setFields] = useState({
     email: "",
