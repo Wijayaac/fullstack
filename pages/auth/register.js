@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import { unauthPage } from "../../middlewares/authorizationPage";
 
 export async function getServerSideProps(ctx) {
@@ -55,6 +56,9 @@ export default function Register() {
         <br />
         <button type="submit">Register</button>
         <div>Info: {status}</div>
+        <Link href="/auth/login">
+          <a>Login</a>
+        </Link>
       </form>
     </div>
   );

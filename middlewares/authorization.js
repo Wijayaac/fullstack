@@ -11,10 +11,14 @@ export default function authorization(req, res) {
 
     if (authType !== "Bearer") return res.status(401).end();
 
-    return jwt.verify(authToken, "ibukuCantik", function (error, decoded) {
-      if (error) return res.status(401).end();
+    return jwt.verify(
+      authToken,
+      process.env.JWT_SECRET,
+      function (error, decoded) {
+        if (error) return res.status(401).end();
 
-      return resolve(decoded);
-    });
+        return resolve(decoded);
+      }
+    );
   });
 }

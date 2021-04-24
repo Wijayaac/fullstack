@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Cookie from "js-cookie";
 import Router from "next/router";
+import Link from "next/link";
 import { unauthPage } from "../../middlewares/authorizationPage";
 
 export async function getServerSideProps(ctx) {
@@ -56,6 +57,9 @@ export default function Login() {
         />
         <button type="submit">Login</button>
         <div>Info :{status} </div>
+        <Link href="/auth/register">
+          <a>Register</a>
+        </Link>
       </form>
     </div>
   );

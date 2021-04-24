@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Router from "next/router";
 import { authPage } from "../../middlewares/authorizationPage";
+import Nav from "../../components/Nav";
 
 export async function getServerSideProps(ctx) {
   const { token } = await authPage(ctx);
@@ -46,6 +47,7 @@ export default function PostIndex(props) {
   return (
     <div>
       <h1>Posts </h1>
+      <Nav />
       {posts.map((post) => (
         <div key={post.id}>
           <h3>{post.title}</h3>
