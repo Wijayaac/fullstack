@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+import Router from "next/router";
 import { authPage } from "../../middlewares/authorizationPage";
 
 export async function getServerSideProps(ctx) {
@@ -11,17 +13,49 @@ export async function getServerSideProps(ctx) {
 
   return {
     props: {
+      token,
       posts: posts.data,
     },
   };
 }
 
 export default function PostIndex(props) {
+  const [posts, setPosts] = useState(props.posts);
+
+  async function deleteHandler(id, e) {
+    e.preventDefault();
+    const { token } = props;
+    const ask = confirm("Apakah data ini akan di hapus ?");
+    if (ask) {
+      const deletePost = await fetch("/api/posts/delete/" + id, {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      const res = await deletePost.json();
+      const postFiltered = posts.filter((post) => {
+        return post.id !== id && post;
+      });
+      setPosts(postFiltered);
+    }
+  }
+  function editHandler(id) {
+    Router.push("/posts/edit/" + id);
+  }
   return (
     <div>
       <h1>Posts </h1>
-      {props.posts.map((post) => (
-        <div key={post.id}>{post.title}</div>
+      {posts.map((post) => (
+        <div key={post.id}>
+          <h3>{post.title}</h3>
+          <p>{post.content} </p>
+          <div>
+            <button onClick={editHandler.bind(this, post.id)}>Edit</button>
+            <button onClick={deleteHandler.bind(this, post.id)}>Delete</button>
+          </div>
+          <hr />
+        </div>
       ))}
     </div>
   );
